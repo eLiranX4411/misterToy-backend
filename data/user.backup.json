@@ -1,0 +1,37 @@
+[
+  {
+    "_id": "u100",
+    "username": "admin",
+    "fullname": "Admin Admin",
+    "password": "admin",
+    "isAdmin": true
+  },
+  {
+    "_id": "u101",
+    "username": "puki",
+    "fullname": "Puki Ja",
+    "password": "puki",
+    "isAdmin": false
+  },
+  {
+    "_id": "u102",
+    "username": "muki",
+    "fullname": "Muki Ba",
+    "password": "muki",
+    "isAdmin": false
+  },
+  {
+    "_id": "u103",
+    "username": "kiki",
+    "fullname": "Kiki Ki",
+    "password": "kiki",
+    "isAdmin": false
+  },
+  {
+    "_id": "u104",
+    "username": "Lili",
+    "fullname": "Lili Mi",
+    "password": "lili",
+    "isAdmin": false
+  }
+]
