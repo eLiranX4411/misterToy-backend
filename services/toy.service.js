@@ -12,9 +12,10 @@ export const toyService = {
 }
 
 function query(filterBy = {}) {
-  // console.log('filterBy:', filterBy)
-
   let filteredToys = toys
+
+  // Filtering ----------------------------------------------
+
   if (filterBy.name) {
     const regExp = new RegExp(filterBy.name, 'i')
     filteredToys = filteredToys.filter((toy) => regExp.test(toy.name))
@@ -28,9 +29,10 @@ function query(filterBy = {}) {
       filterBy.labels.some((label) => toy.labels.includes(label))
     )
   }
+  // Sorting ----------------------------------------------
 
   const { sortBy } = filterBy
-  if (sortBy.type) {
+  if (sortBy && sortBy.type) {
     filteredToys.sort((t1, t2) => {
       const sortDirection = +sortBy.desc
       if (sortBy.type === 'name') {
@@ -40,11 +42,13 @@ function query(filterBy = {}) {
       }
     })
   }
-  const { pageIdx } = filterBy
-  if (pageIdx !== undefined) {
-    let startIdx = +pageIdx * PAGE_SIZE
-    filteredToys = filteredToys.slice(startIdx, startIdx + PAGE_SIZE)
-  }
+  // Pageination ----------------------------------------------
+
+  // const { pageIdx } = filterBy
+  // if (pageIdx !== undefined) {
+  //   let startIdx = +pageIdx * PAGE_SIZE
+  //   filteredToys = filteredToys.slice(startIdx, startIdx + PAGE_SIZE)
+  // }
   return Promise.resolve(filteredToys)
 }
 
