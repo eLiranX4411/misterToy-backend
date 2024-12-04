@@ -16,7 +16,7 @@
     "_id": "t102",
     "name": "Talking Doll-2",
     "price": 123,
-    "inStock": true,
+    "inStock": false,
     "createdAt": 1730829942256,
     "labels": ["'Doll', 'Battery Powered', 'Baby'"],
     "creator": {
@@ -40,7 +40,7 @@
     "_id": "t104",
     "name": "Talking Doll-4",
     "price": 123,
-    "inStock": true,
+    "inStock": false,
     "createdAt": 1730829942256,
     "labels": ["'Doll', 'Battery Powered', 'Baby'"],
     "creator": {
