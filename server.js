@@ -33,6 +33,8 @@ app.get('/api/toy', (req, res) => {
   const { name, inStock = null, pageIdx, sortBy, labels = [] } = req.query
   const filterBy = { name, inStock, pageIdx: +pageIdx, sortBy, labels }
 
+  console.log(filterBy)
+
   toyService
     .query(filterBy)
     .then((toys) => {
