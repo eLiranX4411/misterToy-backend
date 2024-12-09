@@ -29,57 +29,50 @@ app.use(cors(corsOptions))
 
 // **************** Toys API ****************:
 // GET toys
-app.get('/api/toy', (req, res) => {
+app.get('/api/toy', async (req, res) => {
   const { name, inStock = null, pageIdx, sortBy, labels = [] } = req.query
   const filterBy = { name, inStock, pageIdx: +pageIdx, sortBy, labels }
 
-  console.log(filterBy)
+  // console.log(filterBy)
 
-  toyService
-    .query(filterBy)
-    .then((toys) => {
-      res.send(toys)
-    })
-    .catch((err) => {
-      loggerService.error('Cannot load toys', err)
-      res.status(500).send('Cannot load toys')
-    })
+  try {
+    const toys = await toyService.query(filterBy)
+    res.send(toys)
+  } catch (err) {
+    loggerService.error('Cannot load toys', err)
+    res.status(500).send('Cannot load toys')
+  }
 })
 
-app.get('/api/toy/:toyId', (req, res) => {
+app.get('/api/toy/:toyId', async (req, res) => {
   const { toyId } = req.params
 
-  toyService
-    .get(toyId)
-    .then((toy) => {
-      res.send(toy)
-    })
-    .catch((err) => {
-      loggerService.error('Cannot get toy', err)
-      res.status(500).send(err)
-    })
+  try {
+    const toy = await toyService.get(toyId)
+    res.send(toy)
+  } catch (err) {
+    loggerService.error('Cannot get toy', err)
+    res.status(500).send('Cannot retrieve toy')
+  }
 })
 
-app.post('/api/toy', (req, res) => {
+app.post('/api/toy', async (req, res) => {
   const { name, price, labels } = req.body
   const toy = {
     name,
     price: +price,
     labels
   }
-
-  toyService
-    .save(toy)
-    .then((savedToy) => {
-      res.send(savedToy)
-    })
-    .catch((err) => {
-      loggerService.error('Cannot add toy', err)
-      res.status(500).send('Cannot add toy')
-    })
+  try {
+    const toyToSave = await toyService.save(toy)
+    res.send(toyToSave)
+  } catch (err) {
+    loggerService.error('Cannot add toy', err)
+    res.status(500).send('Cannot add toy')
+  }
 })
 
-app.put('/api/toy', (req, res) => {
+app.put('/api/toy', async (req, res) => {
   const { name, price, _id, labels } = req.body
   const toy = {
     _id,
@@ -87,39 +80,52 @@ app.put('/api/toy', (req, res) => {
     price: +price,
     labels
   }
-
-  toyService
-    .save(toy)
-    .then((savedToy) => {
-      res.send(savedToy)
-    })
-    .catch((err) => {
-      loggerService.error('Cannot update toy', err)
-      res.status(500).send('Cannot update toy')
-    })
+  try {
+    const toyToSave = await toyService.save(toy)
+    res.send(toyToSave)
+  } catch (err) {
+    loggerService.error('Cannot update toy', err)
+    res.status(500).send('Cannot update toy')
+  }
 })
 
-app.delete('/api/toy/:toyId', (req, res) => {
+app.delete('/api/toy/:toyId', async (req, res) => {
   const { toyId } = req.params
 
-  toyService
-    .remove(toyId)
-    .then((msg) => {
-      res.send({ msg, toyId })
-    })
-    .catch((err) => {
-      loggerService.error('Cannot delete toy', err)
-      res.status(500).send('Cannot delete toy, ' + err)
-    })
+  try {
+    const toyToRemove = await toyService.remove(toyId)
+    res.send(toyToRemove)
+  } catch (err) {
+    loggerService.error('Cannot delete toy', err)
+    res.status(500).send('Cannot delete toy, ' + err)
+  }
 })
 
 // Fallback
-app.get('/**', (req, res) => {
-  res.sendFile(path.resolve('public/index.html'))
+app.get('/**', async (req, res, next) => {
+  try {
+    await res.sendFile(path.resolve('public/index.html'))
+  } catch (err) {
+    next(err)
+  }
 })
 
 // Listen will always be the last line in our server!
-const port = 3030
-app.listen(port, () => {
-  loggerService.info(`Server listening on port http://127.0.0.1:${port}/`)
-})
+const startServer = async () => {
+  const port = 3030
+  try {
+    await new Promise((resolve, reject) => {
+      const server = app.listen(port, (err) => {
+        if (err) return reject(err)
+        loggerService.info(`Server listening on port http://127.0.0.1:${port}/`)
+        resolve(server)
+      })
+    })
+  } catch (err) {
+    loggerService.error('Failed to start the server', err)
+    process.exit(1) // Exit the process on failure
+  }
+}
+
+// Call the async function to start the server
+startServer()
