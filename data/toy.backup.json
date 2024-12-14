@@ -1,6 +1,5 @@
 [
   {
-    "_id": "t101",
     "name": "Talking Doll-1",
     "price": 14,
     "inStock": true,
@@ -12,7 +11,6 @@
     }
   },
   {
-    "_id": "t102",
     "name": "Talking Doll-2",
     "price": 13,
     "inStock": true,
@@ -24,7 +22,6 @@
     }
   },
   {
-    "_id": "t103",
     "name": "Talking Doll-3",
     "price": 23,
     "inStock": true,
@@ -36,7 +33,6 @@
     }
   },
   {
-    "_id": "t104",
     "name": "Talking Doll-4",
     "price": 153,
     "inStock": false,
@@ -49,7 +45,6 @@
   },
 
   {
-    "_id": "t105",
     "name": "Talking Doll-5",
     "price": 754,
     "inStock": true,
@@ -61,7 +56,6 @@
     }
   },
   {
-    "_id": "t106",
     "name": "Talking Doll-6",
     "price": 323,
     "inStock": false,
@@ -73,7 +67,6 @@
     }
   },
   {
-    "_id": "t107",
     "name": "Talking Doll-7",
     "price": 227,
     "inStock": true,
@@ -85,7 +78,6 @@
     }
   },
   {
-    "_id": "t108",
     "name": "Talking Doll-8",
     "price": 143,
     "inStock": false,

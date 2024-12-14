@@ -1,105 +1,51 @@
-import path from 'path'
 import express from 'express'
-import cors from 'cors'
 import cookieParser from 'cookie-parser'
+import cors from 'cors'
+import path, { dirname } from 'path'
+import { fileURLToPath } from 'url'
 
-import { loggerService } from './services/logger.service.js'
-import { toyService } from './services/toy.service.js'
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
+
+import { logger } from './services/logger.service.js'
+logger.info('server.js loaded...')
 
 const app = express()
 
-const corsOptions = {
-  origin: [
-    'http://127.0.0.1:8080',
-    'http://localhost:8080',
-
-    'http://localhost:5173',
-    'http://127.0.0.1:5173',
-
-    'http://localhost:5174',
-    'http://127.0.0.1:5174'
-  ],
-  credentials: true
-}
-// App Configuration
+// Express App Config
+app.use(cookieParser())
+app.use(express.json())
 app.use(express.static('public'))
-app.use(cookieParser()) // for res.cookies
-app.use(express.json()) // for req.body
-app.use(cors(corsOptions))
 
-// **************** Toys API ****************:
-// GET toys
-app.get('/api/toy', async (req, res) => {
-  const { name, inStock = null, pageIdx, sortBy, labels = [] } = req.query
-  const filterBy = { name, inStock, pageIdx: +pageIdx, sortBy, labels }
+if (process.env.NODE_ENV === 'production') {
+  // Express serve static files on production environment
+  app.use(express.static(path.resolve(__dirname, 'public')))
+  console.log('__dirname: ', __dirname)
+} else {
+  // Configuring CORS
+  // Make sure origin contains the url
+  // your frontend dev-server is running on
+  const corsOptions = {
+    origin: [
+      'http://127.0.0.1:5173',
+      'http://localhost:5173',
 
-  // console.log(filterBy)
-
-  try {
-    const toys = await toyService.query(filterBy)
-    res.send(toys)
-  } catch (err) {
-    loggerService.error('Cannot load toys', err)
-    res.status(500).send('Cannot load toys')
+      'http://127.0.0.1:3000',
+      'http://localhost:3000'
+    ],
+    credentials: true
   }
-})
+  app.use(cors(corsOptions))
+}
 
-app.get('/api/toy/:toyId', async (req, res) => {
-  const { toyId } = req.params
+import { authRoutes } from './api/auth/auth.routes.js'
+import { userRoutes } from './api/user/user.routes.js'
+import { toyRoutes } from './api/toy/toy.routes.js'
 
-  try {
-    const toy = await toyService.get(toyId)
-    res.send(toy)
-  } catch (err) {
-    loggerService.error('Cannot get toy', err)
-    res.status(500).send('Cannot retrieve toy')
-  }
-})
-
-app.post('/api/toy', async (req, res) => {
-  const { name, price, labels } = req.body
-  const toy = {
-    name,
-    price: +price,
-    labels
-  }
-  try {
-    const toyToSave = await toyService.save(toy)
-    res.send(toyToSave)
-  } catch (err) {
-    loggerService.error('Cannot add toy', err)
-    res.status(500).send('Cannot add toy')
-  }
-})
-
-app.put('/api/toy', async (req, res) => {
-  const { name, price, _id, labels } = req.body
-  const toy = {
-    _id,
-    name,
-    price: +price,
-    labels
-  }
-  try {
-    const toyToSave = await toyService.save(toy)
-    res.send(toyToSave)
-  } catch (err) {
-    loggerService.error('Cannot update toy', err)
-    res.status(500).send('Cannot update toy')
-  }
-})
-
-app.delete('/api/toy/:toyId', async (req, res) => {
-  const { toyId } = req.params
-
-  try {
-    const toyToRemove = await toyService.remove(toyId)
-    res.send(toyToRemove)
-  } catch (err) {
-    loggerService.error('Cannot delete toy', err)
-    res.status(500).send('Cannot delete toy, ' + err)
-  }
-})
+// Routes
+app.use('/api/auth', authRoutes)
+app.use('/api/user', userRoutes)
+app.use('/api/toy', toyRoutes)
 
 // Fallback
 app.get('/**', async (req, res, next) => {
@@ -117,12 +63,12 @@ const startServer = async () => {
     await new Promise((resolve, reject) => {
       const server = app.listen(port, (err) => {
         if (err) return reject(err)
-        loggerService.info(`Server listening on port http://127.0.0.1:${port}/`)
+        logger.info(`Server listening on port http://127.0.0.1:${port}/`)
         resolve(server)
       })
     })
   } catch (err) {
-    loggerService.error('Failed to start the server', err)
+    logger.error('Failed to start the server', err)
     process.exit(1) // Exit the process on failure
   }
 }
