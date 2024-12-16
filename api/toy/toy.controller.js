@@ -2,12 +2,15 @@ import { logger } from '../../services/logger.service.js'
 import { toyService } from './toy.service.js'
 
 export async function getToys(req, res) {
-  const { name, inStock = null, pageIdx, sortBy, labels = [] } = req.query
+  const { name, inStock, pageIdx, sortBy, labels = [] } = req.query
+  const filterBy = { name, inStock, pageIdx: +pageIdx, sortBy, labels }
+
+  if (sortBy && sortBy.desc) {
+    sortBy.desc = +sortBy.desc
+  }
 
   try {
-    const filterBy = { name, inStock, pageIdx: +pageIdx, sortBy, labels }
     const toys = await toyService.query(filterBy)
-    console.log(`Controller:`, toys)
     res.send(toys)
   } catch (err) {
     logger.error('Cannot load toys', err)

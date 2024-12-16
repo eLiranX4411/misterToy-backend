@@ -1,5 +1,6 @@
 import { ObjectId } from 'mongodb'
 import { dbService } from '../../services/db.service.js'
+import { logger } from '../../services/logger.service.js'
 
 export const toyService = {
   query,
@@ -12,27 +13,36 @@ export const toyService = {
 
 async function query(filterBy = {}) {
   try {
+    const collection = await dbService.getCollection('toy')
+    // const criteria = {}
     const criteria = _buildCriteria(filterBy)
     const sortOptions = _buildSortOptions(filterBy)
     const { pageIdx = 0, pageSize = 4 } = filterBy
-
-    const collection = await dbService.getCollection('toy')
-
-    // Perform the query with criteria, sorting, and pagination
     const toys = await collection
       .find(criteria)
       .sort(sortOptions)
-      .skip(pageIdx * pageSize) // Skip documents for pagination
-      .limit(pageSize) // Limit number of documents
+      .skip(pageIdx * pageSize)
+      .limit(pageSize)
       .toArray()
 
-    console.log(`Service:`, toys)
     return toys
   } catch (err) {
-    logger.error('Cannot query toys', err)
-    throw new Error(`Can't get toys...`)
+    console.error('Error fetching toys:', err)
+    throw new Error(`Cannot get toys...`)
   }
 }
+
+// async function query(filterBy = {}) {
+//   try {
+//     const collection = await dbService.getCollection('toy')
+//     const criteria = {} // Empty criteria fetches all documents
+//     const toys = await collection.find(criteria).toArray()
+//     return toys
+//   } catch (err) {
+//     console.error('Error fetching toys:', err)
+//     throw err
+//   }
+// }
 
 async function get(toyId) {
   try {
@@ -143,22 +153,32 @@ function _makeId(length = 5) {
 // Helper to construct the filtering criteria
 function _buildCriteria(filterBy) {
   const criteria = {}
+
   if (filterBy.name) {
     criteria.name = { $regex: filterBy.name, $options: 'i' }
   }
   if (filterBy.inStock !== undefined) {
-    criteria.inStock = JSON.parse(filterBy.inStock) // Ensure boolean conversion
+    criteria.inStock = filterBy.inStock
   }
   if (filterBy.labels && filterBy.labels.length) {
-    criteria.labels = { $in: filterBy.labels } // Match any label in the array
+    criteria.labels = { $in: filterBy.labels }
   }
+  // console.log(`criteria:`, criteria)
   return criteria
 }
 
 // Helper to construct the sorting options
 function _buildSortOptions(filterBy) {
-  if (!filterBy.sortBy || !filterBy.sortBy.type) return {} // No sorting if not specified
+  // Check if sortBy exists and has a valid 'type'
+  if (!filterBy.sortBy || !filterBy.sortBy.type) return {}
 
-  const sortDirection = filterBy.sortBy.desc ? -1 : 1
-  return { [filterBy.sortBy.type]: sortDirection }
+  // Convert desc to -1 (descending) or 1 (ascending)
+  const sortDirection = filterBy.sortBy.desc === 1 ? 1 : -1
+
+  // Build the MongoDB sorting object
+  const sortOptions = { [filterBy.sortBy.type]: sortDirection }
+
+  // console.log(`MongoDB Sort Options:`, sortOptions)
+
+  return sortOptions
 }

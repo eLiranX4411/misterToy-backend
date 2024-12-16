@@ -15,12 +15,14 @@ export const userService = {
 async function query(filterBy = {}) {
   const criteria = _buildCriteria(filterBy)
   try {
-    const collection = await dbService.getCollection('users')
+    const collection = await dbService.getCollection('user')
     var users = await collection.find(criteria).sort({ nickname: -1 }).toArray()
     users = users.map((user) => {
       delete user.password
       user.isHappy = true
       user.createdAt = user._id.getTimestamp()
+
+      console.log(users)
       return user
     })
     return users
@@ -32,7 +34,7 @@ async function query(filterBy = {}) {
 
 async function getById(userId) {
   try {
-    const collection = await dbService.getCollection('users')
+    const collection = await dbService.getCollection('user')
     const user = await collection.findOne({ _id: ObjectId.createFromHexString(userId) })
     delete user.password
     return user
@@ -43,7 +45,7 @@ async function getById(userId) {
 }
 async function getByUsername(username) {
   try {
-    const collection = await dbService.getCollection('users')
+    const collection = await dbService.getCollection('user')
     const user = await collection.findOne({ username })
     return user
   } catch (err) {
@@ -54,7 +56,7 @@ async function getByUsername(username) {
 
 async function remove(userId) {
   try {
-    const collection = await dbService.getCollection('users')
+    const collection = await dbService.getCollection('user')
     await collection.deleteOne({ _id: ObjectId.createFromHexString(userId) })
   } catch (err) {
     logger.error(`cannot remove user ${userId}`, err)
@@ -71,7 +73,7 @@ async function update(user) {
       fullname: user.fullname,
       score: user.score
     }
-    const collection = await dbService.getCollection('users')
+    const collection = await dbService.getCollection('user')
     await collection.updateOne({ _id: userToSave._id }, { $set: userToSave })
     return userToSave
   } catch (err) {
@@ -93,7 +95,7 @@ async function add(user) {
       fullname: user.fullname,
       score: user.score || 0
     }
-    const collection = await dbService.getCollection('users')
+    const collection = await dbService.getCollection('user')
     await collection.insertOne(userToAdd)
     return userToAdd
   } catch (err) {

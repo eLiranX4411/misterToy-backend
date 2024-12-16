@@ -11,6 +11,7 @@ async function getCollection(collectionName) {
   try {
     const db = await _connect()
     const collection = await db.collection(collectionName)
+    // console.log('Database Config:', config.dbURL, config.dbName)
     return collection
   } catch (err) {
     logger.error('Failed to get Mongo collection', err)
@@ -31,3 +32,18 @@ async function _connect() {
     throw err
   }
 }
+
+async function testConnection() {
+  try {
+    const client = await MongoClient.connect(config.dbURL)
+    console.log('Connected to MongoDB')
+    const db = client.db(config.dbName)
+    console.log('Connected to Database:', db.databaseName)
+    const toys = await db.collection('toys').find({}).toArray()
+    console.log('Fetched Toys:', toys)
+  } catch (err) {
+    console.error('Failed to connect to MongoDB:', err)
+  }
+}
+
+testConnection()
