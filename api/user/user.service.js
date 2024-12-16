@@ -19,10 +19,9 @@ async function query(filterBy = {}) {
     var users = await collection.find(criteria).sort({ nickname: -1 }).toArray()
     users = users.map((user) => {
       delete user.password
-      user.isHappy = true
       user.createdAt = user._id.getTimestamp()
 
-      console.log(users)
+      // console.log(users)
       return user
     })
     return users
