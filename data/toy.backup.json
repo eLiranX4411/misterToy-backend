@@ -8,7 +8,17 @@
     "creator": {
       "_id": "u101",
       "fullname": "Puki Ja"
-    }
+    },
+    "msgs": [
+      {
+        "id": "m101",
+        "txt": "Great, how much",
+        "by": {
+          "_id": "u101",
+          "fullname": "Luli Ga"
+        }
+      }
+    ]
   },
   {
     "name": "Talking Doll-2",
@@ -19,7 +29,17 @@
     "creator": {
       "_id": "u102",
       "fullname": "Muki Ba"
-    }
+    },
+    "msgs": [
+      {
+        "id": "m102",
+        "txt": "how much?",
+        "by": {
+          "_id": "u102",
+          "fullname": "Popo Ga"
+        }
+      }
+    ]
   },
   {
     "name": "Talking Doll-3",
@@ -30,7 +50,17 @@
     "creator": {
       "_id": "u103",
       "fullname": "Kiki Ki"
-    }
+    },
+    "msgs": [
+      {
+        "id": "m103",
+        "txt": "Great toy!",
+        "by": {
+          "_id": "u103",
+          "fullname": "Shoshi Ga"
+        }
+      }
+    ]
   },
   {
     "name": "Talking Doll-4",
@@ -41,7 +71,17 @@
     "creator": {
       "_id": "u104",
       "fullname": "Lili Mi"
-    }
+    },
+    "msgs": [
+      {
+        "id": "m104",
+        "txt": "much much!!",
+        "by": {
+          "_id": "u104",
+          "fullname": "Praia LaGa"
+        }
+      }
+    ]
   },
 
   {
@@ -51,9 +91,19 @@
     "createdAt": 1930829942256,
     "labels": ["'Outdoor', 'Battery Powered', 'Baby'"],
     "creator": {
-      "_id": "u101",
-      "fullname": "Puki Ja"
-    }
+      "_id": "u105",
+      "fullname": "Pupu Ja"
+    },
+    "msgs": [
+      {
+        "id": "m105",
+        "txt": "Nope...",
+        "by": {
+          "_id": "m105",
+          "fullname": "Mepi San"
+        }
+      }
+    ]
   },
   {
     "name": "Talking Doll-6",
@@ -62,9 +112,19 @@
     "createdAt": 2730829942256,
     "labels": ["'Art', 'Battery Powered', 'Outdoor'"],
     "creator": {
-      "_id": "u102",
-      "fullname": "Muki Ba"
-    }
+      "_id": "u106",
+      "fullname": "Sasa Sa"
+    },
+    "msgs": [
+      {
+        "id": "m106",
+        "txt": "Great",
+        "by": {
+          "_id": "u106",
+          "fullname": "Puki Ga"
+        }
+      }
+    ]
   },
   {
     "name": "Talking Doll-7",
@@ -73,9 +133,19 @@
     "createdAt": 4730829942256,
     "labels": ["'Doll', 'Art', 'On wheels'"],
     "creator": {
-      "_id": "u103",
-      "fullname": "Kiki Ki"
-    }
+      "_id": "u107",
+      "fullname": "Pipi Ki"
+    },
+    "msgs": [
+      {
+        "id": "m107",
+        "txt": "YES!!...",
+        "by": {
+          "_id": "m107",
+          "fullname": "Mama Peoi"
+        }
+      }
+    ]
   },
   {
     "name": "Talking Doll-8",
@@ -84,8 +154,18 @@
     "createdAt": 1230829922256,
     "labels": ["'On wheels', 'Battery Powered', 'Baby'"],
     "creator": {
-      "_id": "u104",
-      "fullname": "Lili Mi"
-    }
+      "_id": "u108",
+      "fullname": "Momo Mi"
+    },
+    "msgs": [
+      {
+        "id": "m108",
+        "txt": "Amazing!!",
+        "by": {
+          "_id": "m108",
+          "fullname": "Shaha Shur"
+        }
+      }
+    ]
   }
 ]

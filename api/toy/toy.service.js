@@ -14,7 +14,6 @@ export const toyService = {
 async function query(filterBy = {}) {
   try {
     const collection = await dbService.getCollection('toy')
-    // const criteria = {}
     const criteria = _buildCriteria(filterBy)
     const sortOptions = _buildSortOptions(filterBy)
     const { pageIdx = 0, pageSize = 4 } = filterBy
@@ -32,22 +31,18 @@ async function query(filterBy = {}) {
   }
 }
 
-// async function query(filterBy = {}) {
-//   try {
-//     const collection = await dbService.getCollection('toy')
-//     const criteria = {} // Empty criteria fetches all documents
-//     const toys = await collection.find(criteria).toArray()
-//     return toys
-//   } catch (err) {
-//     console.error('Error fetching toys:', err)
-//     throw err
-//   }
-// }
-
 async function get(toyId) {
   try {
+    if (!ObjectId.isValid(toyId)) {
+      throw new Error(`Invalid toy ID: ${toyId}`)
+    }
     const collection = await dbService.getCollection('toy')
     const toy = await collection.findOne({ _id: ObjectId.createFromHexString(toyId) })
+
+    if (!toy) {
+      throw new Error(`Toy with ID ${toyId} not found`)
+    }
+
     toy.createdAt = toy._id.getTimestamp()
     return toy
   } catch (err) {
@@ -120,7 +115,7 @@ async function addToyMsg(toyId, msg) {
     )
     return msg
   } catch (err) {
-    logger.error(`cannot add car msg ${toyId}`, err)
+    logger.error(`cannot add toy msg ${toyId}`, err)
     throw err
   }
 }
@@ -134,7 +129,7 @@ async function removeToyMsg(toyId, msgId) {
     )
     return msgId
   } catch (err) {
-    logger.error(`cannot add car msg ${toyId}`, err)
+    logger.error(`cannot add toy msg ${toyId}`, err)
     throw err
   }
 }
