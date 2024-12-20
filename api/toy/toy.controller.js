@@ -38,10 +38,10 @@ export async function addToy(req, res) {
     const toy = {
       name,
       price: +price,
-      labels
+      labels,
+      owner: loggedinUser
     }
 
-    toy.owner = loggedinUser
     const toyToSave = await toyService.save(toy)
     res.send(toyToSave)
   } catch (err) {

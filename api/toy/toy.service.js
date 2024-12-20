@@ -24,6 +24,7 @@ async function query(filterBy = {}) {
       .limit(pageSize)
       .toArray()
 
+    console.log('FilterBy, Service:', filterBy)
     return toys
   } catch (err) {
     console.error('Error fetching toys:', err)
@@ -152,10 +153,12 @@ function _buildCriteria(filterBy) {
   if (filterBy.name) {
     criteria.name = { $regex: filterBy.name, $options: 'i' }
   }
-  if (filterBy.inStock !== undefined) {
-    criteria.inStock = filterBy.inStock
+  if (filterBy.inStock === 'inStock') {
+    criteria.inStock = true
+  } else if (filterBy.inStock === 'outOfStock') {
+    criteria.inStock = false
   }
-  if (filterBy.labels && filterBy.labels.length) {
+  if (filterBy.labels?.length) {
     criteria.labels = { $in: filterBy.labels }
   }
   // console.log(`criteria:`, criteria)

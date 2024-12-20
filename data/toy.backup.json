@@ -4,11 +4,7 @@
     "price": 14,
     "inStock": true,
     "createdAt": 1534829912256,
-    "labels": ["'Doll', 'Battery Powered', 'Baby'"],
-    "creator": {
-      "_id": "u101",
-      "fullname": "Puki Ja"
-    },
+    "labels": ["Doll", "Battery Powered", "Baby"],
     "msgs": [
       {
         "id": "m101",
@@ -25,11 +21,7 @@
     "price": 13,
     "inStock": true,
     "createdAt": 1720829992256,
-    "labels": ["'Box game', 'Battery Powered', 'Baby'"],
-    "creator": {
-      "_id": "u102",
-      "fullname": "Muki Ba"
-    },
+    "labels": ["Box game", "Battery Powered", "Baby"],
     "msgs": [
       {
         "id": "m102",
@@ -46,11 +38,7 @@
     "price": 23,
     "inStock": true,
     "createdAt": 1230829942256,
-    "labels": ["'Doll', 'Battery Powered', 'Puzzle'"],
-    "creator": {
-      "_id": "u103",
-      "fullname": "Kiki Ki"
-    },
+    "labels": ["Doll", "Battery Powered", "Puzzle"],
     "msgs": [
       {
         "id": "m103",
@@ -67,11 +55,7 @@
     "price": 153,
     "inStock": false,
     "createdAt": 1630825942256,
-    "labels": ["'Doll', 'Outdoor', 'On wheels'"],
-    "creator": {
-      "_id": "u104",
-      "fullname": "Lili Mi"
-    },
+    "labels": ["Doll", "Outdoor", "On wheels"],
     "msgs": [
       {
         "id": "m104",
@@ -89,11 +73,7 @@
     "price": 754,
     "inStock": true,
     "createdAt": 1930829942256,
-    "labels": ["'Outdoor', 'Battery Powered', 'Baby'"],
-    "creator": {
-      "_id": "u105",
-      "fullname": "Pupu Ja"
-    },
+    "labels": ["Doll", "Battery Powered", "Baby"],
     "msgs": [
       {
         "id": "m105",
@@ -110,11 +90,7 @@
     "price": 323,
     "inStock": false,
     "createdAt": 2730829942256,
-    "labels": ["'Art', 'Battery Powered', 'Outdoor'"],
-    "creator": {
-      "_id": "u106",
-      "fullname": "Sasa Sa"
-    },
+    "labels": ["Art", "Battery Powered", "Baby"],
     "msgs": [
       {
         "id": "m106",
@@ -131,11 +107,7 @@
     "price": 227,
     "inStock": true,
     "createdAt": 4730829942256,
-    "labels": ["'Doll', 'Art', 'On wheels'"],
-    "creator": {
-      "_id": "u107",
-      "fullname": "Pipi Ki"
-    },
+    "labels": ["Doll", "Battery Powered", "Baby"],
     "msgs": [
       {
         "id": "m107",
@@ -152,11 +124,7 @@
     "price": 143,
     "inStock": false,
     "createdAt": 1230829922256,
-    "labels": ["'On wheels', 'Battery Powered', 'Baby'"],
-    "creator": {
-      "_id": "u108",
-      "fullname": "Momo Mi"
-    },
+    "labels": ["Doll", "Battery Powered", "Baby"],
     "msgs": [
       {
         "id": "m108",
