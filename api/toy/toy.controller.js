@@ -39,7 +39,7 @@ export async function addToy(req, res) {
       name,
       price: +price,
       labels,
-      owner: loggedinUser
+      creator: loggedinUser
     }
 
     const toyToSave = await toyService.save(toy)
@@ -91,7 +91,7 @@ export async function addToyMsg(req, res) {
       createdAt: Date.now()
     }
     const savedMsg = await toyService.addToyMsg(toyId, msg)
-    res.json(savedMsg)
+    res.send(savedMsg)
   } catch (err) {
     logger.error('Failed to update toy', err)
     res.status(500).send('Failed to update toy')

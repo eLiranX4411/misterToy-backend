@@ -24,7 +24,7 @@ async function query(filterBy = {}) {
       .limit(pageSize)
       .toArray()
 
-    console.log('FilterBy, Service:', filterBy)
+    // console.log('FilterBy, Service:', filterBy)
     return toys
   } catch (err) {
     console.error('Error fetching toys:', err)
@@ -68,7 +68,7 @@ async function save(toy) {
     const collection = await dbService.getCollection('toy')
 
     if (toy._id) {
-      const toyId = ObjectId(toy._id) // Convert string to ObjectId
+      const toyId = ObjectId.createFromHexString(toy._id)
       const toyToUpdate = {
         name: toy.name,
         price: toy.price,
@@ -91,13 +91,12 @@ async function save(toy) {
         price: toy.price,
         inStock: toy.inStock || false,
         labels: toy.labels || [],
-        createdAt: Date.now(),
-        updatedAt: Date.now()
+        creator: toy.creator,
+        createdAt: Date.now()
       }
 
       const insertedToy = await collection.insertOne(toyToInsert)
-
-      return { ...toyToInsert, _id: insertedToy.insertedId } // Include the generated _id
+      return { ...toyToInsert, _id: insertedToy.insertedId.toString() }
     }
   } catch (err) {
     logger.error('Cannot save toy', err)
