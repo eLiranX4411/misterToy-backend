@@ -37,7 +37,7 @@ export async function addReview(req, res) {
 
   try {
     var review = req.body
-    const { aboutUserId } = review
+    const { aboutToyId } = review
     review.byUserId = loggedinUser._id
     review = await reviewService.add(review)
 
@@ -53,17 +53,17 @@ export async function addReview(req, res) {
 
     //* prepare the updated review for sending out
     review.byUser = loggedinUser
-    review.aboutUser = await userService.getById(aboutUserId)
+    review.aboutToy = await userService.getById(aboutToyId)
 
-    delete review.aboutUser.givenReviews
-    delete review.aboutUserId
+    delete review.aboutToy.givenReviews
+    delete review.aboutToyId
     delete review.byUserId
 
     socketService.broadcast({ type: 'review-added', data: review, userId: loggedinUser._id })
     socketService.emitToUser({
       type: 'review-about-you',
       data: review,
-      userId: review.aboutUser._id
+      userId: review.aboutToy._id
     })
 
     const fullUser = await userService.getById(loggedinUser._id)
