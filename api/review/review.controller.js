@@ -44,7 +44,7 @@ export async function addReview(req, res) {
     // Give the user credit for adding a review
     // var user = await userService.getById(review.byUserId)
     // user.score += 10
-    loggedinUser.score += 10
+    loggedinUser.score = (loggedinUser.score || 0) + 10
     await userService.update(loggedinUser)
 
     //* Update user score in login token as well

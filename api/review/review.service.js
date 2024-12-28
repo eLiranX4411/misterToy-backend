@@ -80,13 +80,14 @@ async function remove(reviewId) {
 async function add(review) {
   try {
     const reviewToAdd = {
-      byUserId: ObjectId.createFromHexString(review.byUserId),
+      txt: review.txt,
       aboutToyId: ObjectId.createFromHexString(review.aboutToyId),
-      txt: review.txt
+      byUserId: ObjectId.createFromHexString(review.byUserId)
     }
     const collection = await dbService.getCollection('review')
     await collection.insertOne(reviewToAdd)
 
+    reviewToAdd._id = insertedId
     return reviewToAdd
   } catch (err) {
     logger.error('cannot add review', err)
