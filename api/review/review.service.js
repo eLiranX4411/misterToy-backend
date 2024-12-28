@@ -14,9 +14,6 @@ async function query(filterBy = {}) {
     var reviews = await collection
       .aggregate([
         {
-          $match: criteria
-        },
-        {
           $lookup: {
             localField: 'byUserId',
             from: 'user',
@@ -26,6 +23,9 @@ async function query(filterBy = {}) {
         },
         {
           $unwind: '$byUser'
+        },
+        {
+          $match: criteria
         },
         {
           $lookup: {
@@ -98,8 +98,13 @@ async function add(review) {
 function _buildCriteria(filterBy) {
   const criteria = {}
 
+  if (filterBy.name) {
+    criteria['byUser.fullname'] = { $regex: filterBy.name, $options: 'i' }
+  }
+
   if (filterBy.byUserId) {
     criteria.byUserId = ObjectId.createFromHexString(filterBy.byUserId)
   }
+
   return criteria
 }
